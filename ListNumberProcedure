@@ -1,0 +1,24 @@
+CREATE OR ALTER PROCEDURE dbo.ListPrimesComposites
+    @num INT
+AS
+BEGIN
+	--For negative numbers n 1 a error message pops. no rows shown
+	IF @num <= 1
+	BEGIN
+		PRINT 'THESE NUMBERS ARE NEITHER PRIME NOT COMPOSITE
+				Remember: 
+					-Prime & Composite numbers are natural numbers
+					- The only exception is 1 because it can only be divide by itself
+					
+			TRY AGAIN:('
+	END
+
+	-- List prime numbers from prime function 
+	SELECT PrimeNumber 
+	FROM dbo.ListPrimes(@num)
+    
+	-- List composite numbers
+	SELECT CompositeNumber 
+	FROM dbo.ListComposites(@num)
+END
+GO
