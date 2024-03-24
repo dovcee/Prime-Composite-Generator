@@ -1,0 +1,41 @@
+--COMPOSITE FUNCTION
+
+CREATE OR ALTER FUNCTION ListComposites 
+(
+	@num INT
+) 
+RETURNS @Composites TABLE 
+(
+	CompositeNumber INT
+)
+AS
+BEGIN
+    DECLARE @i INT = 4 -- Start with 4 because 1, 2, and 3 are prime
+    
+    WHILE @i < @num
+    BEGIN
+        DECLARE @isComposite BIT = 0 -- @i=not composite as default
+        DECLARE @j INT = 2
+        
+        WHILE @j <= SQRT(@i)
+        BEGIN
+            IF @i % @j = 0
+            BEGIN
+		-- If @i is divisible by any number other than 1 and itself =  composite
+                SET @isComposite = 1 
+
+		--Insert into @composites table
+                INSERT INTO @Composites (CompositeNumber) 
+		VALUES (@i)
+                BREAK
+            END
+            SET @j = @j + 1
+        END
+        
+        SET @i = @i + 1
+    END
+    
+    RETURN
+END
+GO
+
