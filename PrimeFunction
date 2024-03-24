@@ -1,0 +1,41 @@
+--PRIME NUMBER FUNCTION
+
+CREATE OR ALTER FUNCTION ListPrimes 
+(
+	@num INT
+) 
+RETURNS @Primes TABLE -- return as a table  
+(
+	PrimeNumber INT
+)
+AS
+BEGIN
+    DECLARE @i INT = 2 -- Start with 2 because 1 is not a prime or composite.
+    
+    WHILE @i < @num
+    BEGIN
+        DECLARE @isPrime BIT = 1 -- set default to @i = prime 
+	DECLARE @j INT = 2
+        
+        WHILE @j <= SQRT(@i)
+        BEGIN
+            IF @i % @j = 0-- If @i is divisible by any number other than 1 and itself = composite
+            BEGIN
+                SET @isPrime = 0
+                BREAK--dont repeat same value
+            END
+            SET @j = @j + 1
+        END
+        
+        IF @isPrime = 1 -- If @i is prime, insert it into the table
+        BEGIN
+            INSERT INTO @Primes (PrimeNumber) 
+	    VALUES (@i)
+        END
+        
+        SET @i = @i + 1--keep going til less than input 
+    END
+    
+    RETURN
+END
+GO
